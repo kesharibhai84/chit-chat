@@ -58,6 +58,7 @@ Start the Client
 # Features
 
 ### Authenticaton
+![image](https://github.com/kesharibhai84/chit-chat/assets/136710684/3fb55cd8-c03f-4c32-b452-e180ae318a60)
 
 ### Real Time Chatting with Typing indicators
 
