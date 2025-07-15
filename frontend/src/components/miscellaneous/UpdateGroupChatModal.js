@@ -15,6 +15,7 @@ import {
   Box,
   IconButton,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -214,9 +215,13 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
             fontSize="35px"
             fontFamily="Work sans"
             d="flex"
-            justifyContent="center"
+            flexDir="column"
+            alignItems="center"
           >
             {selectedChat.chatName}
+            <Text fontSize="md" color="blue.500" mt={2}>
+              Admin: {selectedChat.groupAdmin?.name}
+            </Text>
           </ModalHeader>
 
           <ModalCloseButton />

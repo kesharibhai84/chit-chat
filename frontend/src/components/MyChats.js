@@ -105,6 +105,11 @@ const MyChats = ({ fetchAgain }) => {
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
                 </Text>
+                {chat.isGroupChat && (
+                  <Text fontSize="xs" color="gray.500">
+                    Admin: {chat.groupAdmin?.name}
+                  </Text>
+                )}
                 {chat.latestMessage && (
                   <Text fontSize="xs">
                     <b>{chat.latestMessage.sender.name} : </b>

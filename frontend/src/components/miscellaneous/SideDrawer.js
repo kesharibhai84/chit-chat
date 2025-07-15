@@ -20,7 +20,7 @@ import { Tooltip } from "@chakra-ui/tooltip";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 import { useHistory } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
 import ChatLoading from "../ChatLoading";
@@ -56,15 +56,9 @@ function SideDrawer() {
     history.push("/");
   };
 
-  const handleSearch = async () => {
-    if (!search) {
-      toast({
-        title: "Please Enter something in search",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "top-left",
-      });
+  const handleSearch = useCallback(async () => {
+    if (!search.trim()) {
+      setSearchResult([]);
       return;
     }
 
@@ -82,6 +76,7 @@ function SideDrawer() {
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
+      setLoading(false);
       toast({
         title: "Error Occured!",
         description: "Failed to Load the Search Results",
@@ -91,7 +86,20 @@ function SideDrawer() {
         position: "bottom-left",
       });
     }
-  };
+  }, [search, user.token, toast]);
+
+  // Debounced search effect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (search.trim()) {
+        handleSearch();
+      } else {
+        setSearchResult([]);
+      }
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timeoutId);
+  }, [search, handleSearch]);
 
   const accessChat = async (userId) => {
     console.log(userId);
@@ -198,11 +206,9 @@ function SideDrawer() {
             <Box d="flex" pb={2}>
               <Input
                 placeholder="Search by name or email"
-                mr={2}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button onClick={handleSearch}>Go</Button>
             </Box>
             {loading ? (
               <ChatLoading />

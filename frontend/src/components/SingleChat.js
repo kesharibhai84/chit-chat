@@ -4,7 +4,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
@@ -16,7 +16,7 @@ import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 const ENDPOINT = "http://localhost:5000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
-var socket, selectedChatCompare;
+var socket;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
@@ -26,6 +26,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+  const selectedChatRef = useRef();
 
   const defaultOptions = {
     loop: true,
@@ -116,26 +117,31 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     fetchMessages();
-
-    selectedChatCompare = selectedChat;
+    selectedChatRef.current = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
 
-  useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved) => {
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-        if (!notification.includes(newMessageRecieved)) {
-          setNotification([newMessageRecieved, ...notification]);
-          setFetchAgain(!fetchAgain);
-        }
-      } else {
-        setMessages([...messages, newMessageRecieved]);
+  const handleMessageReceived = useCallback((newMessageRecieved) => {
+    if (
+      !selectedChatRef.current || // if chat is not selected or doesn't match current chat
+      selectedChatRef.current._id !== newMessageRecieved.chat._id
+    ) {
+      if (!notification.includes(newMessageRecieved)) {
+        setNotification([newMessageRecieved, ...notification]);
+        setFetchAgain(!fetchAgain);
       }
-    });
-  });
+    } else {
+      setMessages([...messages, newMessageRecieved]);
+    }
+  }, [notification, setNotification, setFetchAgain, fetchAgain, messages]);
+
+  useEffect(() => {
+    socket.on("message recieved", handleMessageReceived);
+
+    return () => {
+      socket.off("message recieved");
+    };
+  }, [handleMessageReceived]);
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
@@ -188,6 +194,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <>
                   {selectedChat.chatName.toUpperCase()}
+                  <Box fontSize="sm" color="gray.500" mt={1}>
+                    Admin: {selectedChat.groupAdmin?.name}
+                  </Box>
                   <UpdateGroupChatModal
                     fetchMessages={fetchMessages}
                     fetchAgain={fetchAgain}
