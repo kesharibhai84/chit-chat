@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "caniuse-lite": "^1.0.30001727",
     "chat-app": "file:..",
     "framer-motion": "^4",
     "react": "^17.0.2",
