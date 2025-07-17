@@ -1,81 +1,104 @@
+# Chit-Chat 💬
 
-# Chit-Chat
+A real-time chat application built with MERN stack and Socket.io
 
-Chit-Chat is a Full Stack Chatting App.
-Uses Socket.io for real time communication and stores user details in encrypted format in Mongo DB Database.
-## Tech Stack
+## Features 🚀
 
-**Client:** React JS
+- Real-time messaging
+- User authentication
+- Group chat creation
+- One-on-one chat
+- User profile management
+- Real-time typing indicators
+- Online/offline status
+- Message notifications
+- Responsive design
 
-**Server:** Node JS, Express JS
+## Tech Stack 💻
 
-**Database:** Mongo DB
-  
-## Demo
+- **Frontend:** React, Chakra UI
+- **Backend:** Node.js, Express
+- **Database:** MongoDB
+- **Real-time Communication:** Socket.io
+- **Authentication:** JWT
+- **File Upload:** Cloudinary
 
+## Installation 🛠️
 
-
-!
-## Run Locally
-
-Clone the project
-
+1. Clone the repository
 ```bash
-  git clone https://github.com/kesharibhai84/chit-chat
+git clone https://github.com/kesharibhai84/chit-chat.git
+cd chit-chat
 ```
 
-Go to the project directory
-
+2. Install dependencies
 ```bash
-  cd chit-chat
+# Install backend dependencies
+npm install
+
+# Install frontend dependencies
+cd frontend
+npm install
 ```
 
-Install dependencies
-
+3. Configure environment variables
 ```bash
-  yarn install
+# Create .env file in root directory
+PORT=5000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+NODE_ENV=development
 ```
 
+4. Run the application
 ```bash
-  cd frontend/
-  yarn install
+# Run backend and frontend concurrently
+npm start
+
+# Run frontend only
+cd frontend
+npm start
 ```
 
-Start the server
+## API Endpoints 🔗
 
-```bash
-  yarn start
-```
-Start the Client
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/user` | Register user |
+| POST | `/api/user/login` | Login user |
+| GET | `/api/user` | Search users |
+| POST | `/api/chat` | Create/Access one-to-one chat |
+| POST | `/api/chat/group` | Create group chat |
+| PUT | `/api/chat/rename` | Rename group |
+| PUT | `/api/chat/groupadd` | Add user to group |
+| PUT | `/api/chat/groupremove` | Remove user from group |
 
-```bash
-  //open now terminal
-  cd frontend
-  yarn start
-```
+## Screenshots 📸
 
-  
-# Features
+[Add your application screenshots here]
 
-### Authenticaton
-![image](https://github.com/kesharibhai84/chit-chat/assets/136710684/3fb55cd8-c03f-4c32-b452-e180ae318a60)
+## Contributing 🤝
 
-### Real Time Chatting with Typing indicators
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### One to One chat
+## License 📝
 
-### Search Users
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-### Create Group Chats
+## Author ✨
 
-### Notifications 
+**Vishal Keshari**
+- GitHub: [@kesharibhai84](https://github.com/kesharibhai84)
 
-### Add or Remove users from group
+## Acknowledgments 🙏
 
-### View Other user Profile
+- Socket.io Documentation
+- MongoDB Documentation
+- React Documentation
+- Chakra UI Components
 
-## Made By
 
-- [@Vishal-keshari](https://github.com/kesharibhai84)
-
-  
